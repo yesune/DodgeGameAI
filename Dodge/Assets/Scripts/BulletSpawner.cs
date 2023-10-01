@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour 
 { 
-    public GameObject bulletPrefab; //»ý¼ºÇÒ Åº¾ËÀÇ ¿øº» ÇÁ¸®ÆÕ
-    public float spawnRateMin = 0.5f;  //ÃÖ¼Ò »ý¼º ÁÖ±â
-    public float spawnRateMax = 3f; //ÃÖ´ë »ý¼º ÁÖ±â
+    public GameObject bulletPrefab; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Åºï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public float spawnRateMin = 0.5f;  //ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
+    public float spawnRateMax = 3f; //ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 
-    private Transform target;   //¹ß»çÇÒ ´ë»ó
-    private float spawnRate;     //»ý¼º ÁÖ±â
-    private float timeAfterSpawn;   //ÃÖ±Ù »ý¼º ½ÃÁ¡¿¡¼­ Áö³­ ½Ã°£
+    private Transform target;   //ï¿½ß»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+    private float spawnRate;     //ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
+    private float timeAfterSpawn;   //ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
 
    
         void Start()

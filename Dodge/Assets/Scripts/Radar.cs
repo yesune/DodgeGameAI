@@ -13,8 +13,9 @@ public class Radar: MonoBehaviour {
 
     public List<Transform> visibleTargets = new List<Transform>();
     public List<float> visibleAngles = new List<float>();
-
     public List<float> visibleDistance = new List<float>();
+    public List<float> visibleDirection = new List<float>();
+
 
     void Start() {
         StartCoroutine("FindTargetsWithDelay", .02f);
@@ -32,6 +33,7 @@ public class Radar: MonoBehaviour {
         visibleTargets.Clear();
         visibleAngles.Clear();
         visibleDistance.Clear();
+        visibleDirection.Clear();
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
         for (int i = 0; i < targetsInViewRadius.Length; i++) {
@@ -44,10 +46,16 @@ public class Radar: MonoBehaviour {
                     visibleTargets.Add(target);
                     float angle = Vector3.Angle(transform.forward, dirToTarget);
                     if(transform.position.x > target.position.x) {
-                        angle += 180;
+                        angle *= -1;
                     }
                     visibleAngles.Add(angle);
                     visibleDistance.Add(dstToTarget);
+                    float xVel = targetsInViewRadius[i].gameObject.GetComponent<Rigidbody>().velocity.x;
+                    float zVel = targetsInViewRadius[i].gameObject.GetComponent<Rigidbody>().velocity.z;
+                    float angleRad = Mathf.Atan2(xVel, zVel);
+                    float angleDeg = angleRad * (180.0f / Mathf.PI);
+                    visibleDirection.Add(angleDeg);
+
                     // Draw a line from the radar to the target
                     Debug.DrawLine(transform.position, target.position, Color.red);
                 }

@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameManeger.cs" />
     <Compile Include="Assets\Scripts\PlayerAI.cs" />
+    <Compile Include="Assets\Scripts\ReplayBuffer.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\Network.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />

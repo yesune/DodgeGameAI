@@ -318,6 +318,7 @@
 "Assets/Scripts/Player Controller.cs"
 "Assets/Scripts/PlayerAI.cs"
 "Assets/Scripts/Radar.cs"
+"Assets/Scripts/ReplayBuffer.cs"
 "Assets/Scripts/Rotator.cs"
 "Assets/Scripts/Vision.cs"
 -langversion:9.0

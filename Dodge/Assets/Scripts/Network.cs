@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace NeuralNetwork
 {
@@ -42,6 +43,7 @@ namespace NeuralNetwork
             return activation;
         }
 
+        // Trying to implement back propogation
         public void Train(double[] input, double[] target)
         {
             // BACK PROPOGATION SURELY THIS WON'T CRASH MY COMPUTER HAHAHAHAHAHHA
@@ -59,6 +61,67 @@ namespace NeuralNetwork
                 
                 // calculate the loss
             }
+        }
+
+        public int getInputSize() {
+            return inputSize;
+        }
+        public int getOutputSize(){
+            return outputSize;
+        }
+        public int getNumHiddenLayers(){
+            return numHiddenLayers;
+        }
+        public int getHiddenLayerSize() {
+            return hiddenLayerSize;
+        }
+
+        public List<Layer> copyLayers() {
+            List<Layer> temp = new List<Layer>();
+            for (int i = 0; i < layers.Count; i++) {
+                Layer temp_layer = new Layer(layers[i].getLayerSize(), layers[i].getPrevLayerSize());
+                temp_layer.setNodes(layers[i].copyNodes(layers[i].getPrevLayerSize()));
+                temp.Add(temp_layer);
+            }
+            
+            return temp;
+        }
+
+        public Layer copyOutput() {
+            Layer temp_layer = new Layer(output.getLayerSize(), output.getPrevLayerSize());
+            temp_layer.setNodes(output.copyNodes(output.getPrevLayerSize()));
+            return temp_layer;
+        }
+
+        public void setLayers(List<Layer> new_layers, Layer new_output) {
+            layers.Clear();
+            for(int i = 0; i < new_layers.Count; i++) {
+                layers.Add(new_layers[i]);
+            }
+            output = new_output;
+        }
+
+        public void SGD(double loss, List<double[]> batch, double[] actions, double[] y) {
+            for (int i = 0; i < numHiddenLayers; i++) {
+                layers[i].SGD(loss, batch, actions, y);
+            }
+            output.SGD(loss, batch, actions, y);
+        }
+
+        public void optimize() {
+            for (int i = 0; i < numHiddenLayers; i++) {
+                layers[i].optimize();
+            }
+            output.optimize();
+        }
+
+        public string toString() {
+            string res = "";
+            for (int i = 0; i < layers.Count; i++) {
+                res += layers[i].toString();
+                res += "\n";
+            }
+            return res;
         }
     }
 }

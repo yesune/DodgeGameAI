@@ -9,9 +9,13 @@ public class PersistentObj : MonoBehaviour
 {
     
     public PlayerAI playerAI;
-    public NeuralNetwork.Network network;
+    private NeuralNetwork.Network network;
+
+    private NeuralNetwork.Network targetNetwork;
 
     private static PersistentObj instance;
+
+    private int counter;
 
     void Awake()
     {
@@ -32,17 +36,19 @@ public class PersistentObj : MonoBehaviour
 
     void Start()
     {
+        counter = 0;
         playerAI = new PlayerAI();
 
         // TIME TO START TESTING HOW EFFICIENT THIS neural network is
-        double[] input = new double[42];
-        for (int i = 0; i < 42; i++)
+        double[] input = new double[34];
+        for (int i = 0; i < 34; i++)
         {
             input[i] = (double)UnityEngine.Random.Range(0.0f, 1.0f);
         }
 
-        NeuralNetwork.Network network = new NeuralNetwork.Network(42, 9, 5, 25); //75 ms just creating
+        network = new NeuralNetwork.Network(34, 9, 5, 25); //75 ms just creating
         network.feedForward(input);
+        targetNetwork = copyNetwork(network);
         
         for (int i = 0; i < playerAI.visions.Length; i++) {
              playerAI.visions[i] = GameObject.Find("Vision" + i).GetComponent<Vision>();
@@ -59,11 +65,11 @@ public class PersistentObj : MonoBehaviour
         playerAI.setRadar(radar);
     }
 
-    public void SaveTrainingData(string data)
+    public void SaveTrainingData()
     {
         string fileName = "training_data.txt"; // Name of the file
         string filePath = Path.Combine(Application.persistentDataPath, fileName);
-
+        string data = network.toString();
         try
         {
             // Use File.WriteAllText to overwrite the file with new data
@@ -75,5 +81,37 @@ public class PersistentObj : MonoBehaviour
         {
             Debug.LogError("Error saving training data: " + e.Message);
         }
-        }
+    }
+
+    public NeuralNetwork.Network GetNetwork() {
+        return network;
+    }
+
+    public NeuralNetwork.Network getTargetNetwork() {
+        return targetNetwork;
+    }
+
+    public NeuralNetwork.Network copyNetwork(NeuralNetwork.Network network) {
+        NeuralNetwork.Network temp = new NeuralNetwork.Network(network.getInputSize(), network.getOutputSize(),
+         network.getNumHiddenLayers(), network.getHiddenLayerSize());
+        // we have to copy all the layers
+        temp.setLayers(temp.copyLayers(), temp.copyOutput());
+        return temp;
+    }
+
+    public void incrementCount() {
+        counter += 1;
+    }
+
+    public void resetCounter() {
+        counter = 0;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void saveNetwork() {
+        targetNetwork = copyNetwork(network);
+    }
 }

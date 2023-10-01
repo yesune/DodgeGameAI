@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
         Vision[] visions = getVisions();
         persistent.restart(visions);
         persistent.setRadar(getRadar());
+        persistent.playerAI.agent.setPlayerAI();
     }
 
     // Update is called once per frame
@@ -49,15 +50,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //���� ���� ���¿��� RŰ�� �����ٸ�
-            if (Input.GetKeyDown(KeyCode.R))
+            /* if (Input.GetKeyDown(KeyCode.R))
             {
-                //SampleScene ���� �ε�
                 SceneManager.LoadScene("SampleScene");
 
-            }
-            else if (playerAI.episode_counter < playerAI.episodes) {
+            } */
+            if (playerAI.episode_counter < playerAI.episodes) {
                 playerAI.episode_counter += 1;
+                playerAI.train();
                 SceneManager.LoadScene("SampleScene");
             }
         }
@@ -68,18 +68,8 @@ public class GameManager : MonoBehaviour
     {
         
         isGameOver = true;
-        string arrayAsString = "";
-        for (int i = 0; i < 256; i++)
-        {
-            for (int j = 0; j < 9; j++)
-            {
-                // Convert each float to a string and add it to the result
-                arrayAsString += playerAI.Q[i, j].ToString() + " ";
-            }
-            // Add a line break between rows
-            arrayAsString += "\n";
-        }
-        persistent.SaveTrainingData(arrayAsString);
+        playerAI.agent.punishRecentActions();
+        persistent.SaveTrainingData();
         //gameoverText.SetActive(true);
 
         //BestTime Ű�� ����� �ְ���� ��������
@@ -110,6 +100,10 @@ public class GameManager : MonoBehaviour
 
     public Radar getRadar() {
         return GameObject.Find("Player").GetComponent<Radar>();
+    }
+
+    public bool getIsGameOver() {
+        return isGameOver;
     }
     
 }

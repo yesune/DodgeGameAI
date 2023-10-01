@@ -7,14 +7,14 @@ public class PlayerAI
     // Hyperparameters
     private float alpha = 0.1f; // learning rate
     private float gamma = 0.99f; // discount factor
-    private float epsilon = 0.1f; // Exploration rate
-    private float epsilon_decary = .999985f;
+    private float epsilon = 0.99f; // Exploration rate
+    private float epsilon_decay = .999985f;
     private float epsilon_min = 0.02f;
     private int batch_size = 32;
-    private int replay_size = 10000;
+    private int replay_size = 1000;
     private float learning_rate = 0.0001f;
-    private int sync_target_frames = 1000;
-    private int replay_start_size = 10000;
+    private int sync_target_frames = 10000;
+    private int replay_start_size = 1000;
     public int episodes = 100000;
     public int episode_counter = 0;
 
@@ -26,22 +26,22 @@ public class PlayerAI
     public float[,] Q = new float[256, NOA];
     private int state;
     private int action;
-    private Agent agent;
+    public Agent agent;
 
-    // There will be 42 inputs , 40 dedicated for vision
+    // There will be 34 inputs , 40 dedicated for vision
     // 8 of (Bool isPresent, x pos, y pos, x vel, y vel)
     // 2 last ones represent position of player
     //
     // There will also be another double for the action taken
     // There will be a another double for the reward
     // One more for if it's done
-    // Another 42 for the new state
+    // Another 34 for the new state
 
 
     public PlayerAI() {
         state = 0;
         action = 0;
-        agent = new Agent();
+        agent = new Agent(replay_size);
     }
 
     public int[] getAction() {
@@ -135,7 +135,6 @@ public class PlayerAI
             }
             factor2 *= 2;
         }
-        Debug.Log(state);
         return state;
     }
 
@@ -149,5 +148,88 @@ public class PlayerAI
 
     public void setRadar(Radar r) {
         radar = r;
+    }
+
+    public float getEpsilon() {
+        return epsilon;
+    }
+
+    public void decrementEpsilon() {
+        epsilon = Mathf.Max(epsilon_decay * epsilon, epsilon_min);
+    }
+
+    public int getReplayStartSize() {
+        return replay_start_size;
+    }
+
+    public float getGamma() {
+        return gamma;
+    }
+
+    public int getBatchSize() {
+        return batch_size;
+    }
+
+    public void train() {
+        if(agent.getBufferLength() >= replay_start_size) {
+            // do some training :)
+            Debug.Log("training");
+            List<double[]> sample = agent.sample(getBatchSize());
+            double[] y = new double[sample.Count];
+            double[] next_state;
+            for (int i = 0; i < sample.Count; i++) {
+                double[] experience = sample[i];
+                y[i] = 0.0;
+                if (experience[36] == -1) {
+                    y[i] = -1.0;
+                }
+                else {
+                    double next_max = (double)Mathf.NegativeInfinity;
+                    next_state = new double[34];
+                    for (int j = 37; j < experience.Length; j++) {
+                        next_state[j-37] = experience[j];
+                    }
+                    double[] next_output = GameManager.instance.persistent.getTargetNetwork().feedForward(next_state);
+                    for (int j = 0; j < next_output.Length; j++) {
+                        if (next_max < next_output[j]) {
+                            next_max = next_output[j];
+                        }
+                    }
+                    y[i] = 0.001 + gamma * next_max;
+                }
+            }
+            // Time to calculate the loss
+            double loss = 0.0;
+            for (int i = 0; i < sample.Count; i++) {
+                // 34 for action, 2 for square
+                double[] experience = sample[i];
+                next_state = new double[34];
+                    for (int j = 37; j < experience.Length; j++) {
+                        next_state[j-37] = experience[j];
+                    }
+                loss += Mathf.Pow((float)(GameManager.instance.persistent.GetNetwork().feedForward(next_state)[(int)sample[i][34]] - y[i]), 2.0f);
+            }
+            loss /= sample.Count;
+            Debug.Log(loss);
+            // thank god for this post reminding me of how to estimate this
+            // https://www.alanzucconi.com/2017/04/10/gradient-descent/
+            List<double[]> inputs = new List<double[]>();
+            double[] actions = new double[sample.Count];
+            for(int i = 0; i < sample.Count; i++) {
+                double[] input = new double[34];
+                for (int j = 0; j < 34; j++) {
+                    input[j] = sample[i][j];
+                }
+                inputs.Add(input);
+                actions[i] = sample[i][34];
+            }
+            GameManager.instance.persistent.GetNetwork().SGD(loss, inputs, actions, y);
+            GameManager.instance.persistent.GetNetwork().optimize();
+            GameManager.instance.persistent.incrementCount();
+            if (GameManager.instance.persistent.getCounter() == 10) { // sync every 10 rounds ig
+                GameManager.instance.persistent.saveNetwork();
+                GameManager.instance.persistent.resetCounter();
+            }
+        }
     }
 }

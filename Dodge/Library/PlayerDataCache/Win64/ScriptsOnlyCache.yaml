@@ -67,33 +67,33 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1630}
+      Script: {instanceID: 1612}
     - Class: 114
-      Script: {instanceID: 1754}
+      Script: {instanceID: 1736}
     - Class: 114
-      Script: {instanceID: 2556}
+      Script: {instanceID: 2536}
     - Class: 114
-      Script: {instanceID: 2754}
+      Script: {instanceID: 2734}
     - Class: 114
-      Script: {instanceID: 2782}
+      Script: {instanceID: 4978}
     - Class: 114
-      Script: {instanceID: 3788}
+      Script: {instanceID: 5156}
     - Class: 114
-      Script: {instanceID: 4542}
+      Script: {instanceID: 5450}
     - Class: 114
-      Script: {instanceID: 5014}
+      Script: {instanceID: 5906}
     - Class: 114
-      Script: {instanceID: 5196}
+      Script: {instanceID: 7134}
     - Class: 114
-      Script: {instanceID: 5302}
+      Script: {instanceID: 7196}
     - Class: 114
-      Script: {instanceID: 5494}
+      Script: {instanceID: 7714}
     - Class: 114
-      Script: {instanceID: 5952}
+      Script: {instanceID: 7726}
     - Class: 114
-      Script: {instanceID: 7242}
+      Script: {instanceID: 7730}
     - Class: 114
-      Script: {instanceID: 7718}
+      Script: {instanceID: 7734}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -277,12 +277,6 @@ ScriptsOnlyBuild:
     className: GraphicRaycaster
   - hash:
       serializedVersion: 2
-      Hash: 43c76677a58e14d753a47b4dc8fbc5b4
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: NewBehaviourScript
-  - hash:
-      serializedVersion: 2
       Hash: 34fa63a30926bcf55d7323dae76be890
     assemblyName: Unity.TextMeshPro
     namespaceName: TMPro
@@ -451,12 +445,6 @@ ScriptsOnlyBuild:
     className: Mask
   - hash:
       serializedVersion: 2
-      Hash: 90bf6723c3a0b38bbf38799955ab8af0
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: GameManager
-  - hash:
-      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
@@ -539,12 +527,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnPointerClickMessageListener
-  - hash:
-      serializedVersion: 2
-      Hash: 751e5bae2a317288c2ab58d66687092b
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: PersistentObj
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -683,12 +665,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI
     namespaceName: UnityEngine.UI
     className: Text
-  - hash:
-      serializedVersion: 2
-      Hash: c13adf70ec9777b05527d1b32edc4c16
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: PlayerController
   - hash:
       serializedVersion: 2
       Hash: f6831ac80ec81c5d5b370c0ed0fee997
@@ -907,6 +883,12 @@ ScriptsOnlyBuild:
     className: UnityOnParticleCollisionMessageListener
   - hash:
       serializedVersion: 2
+      Hash: afa285b054c0f252b7ce257d029807c8
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: Radar
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
@@ -979,10 +961,28 @@ ScriptsOnlyBuild:
     className: UnityOnSliderValueChangedMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 4fcaf9283cc57c2080e1ff63deacc33f
+      Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Assembly-CSharp
     namespaceName: 
-    className: Radar
+    className: PersistentObj
+  - hash:
+      serializedVersion: 2
+      Hash: 43c76677a58e14d753a47b4dc8fbc5b4
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: NewBehaviourScript
+  - hash:
+      serializedVersion: 2
+      Hash: 90bf6723c3a0b38bbf38799955ab8af0
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: GameManager
+  - hash:
+      serializedVersion: 2
+      Hash: c13adf70ec9777b05527d1b32edc4c16
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: PlayerController
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
